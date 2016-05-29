@@ -1,5 +1,6 @@
-/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/fgarcia/test/protocols/server/web/Controller.java
-/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/fgarcia/test/protocols/server/model/Person.java
-/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/fgarcia/test/protocols/server/model/ComplexObject.java
-/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/fgarcia/test/protocols/server/ServerLauncher.java
-/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/fgarcia/test/protocols/server/service/ObjectBuilder.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/com/test/protocols/server/web/Controller.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/com/test/protocols/server/web/Filter.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/target/generated-sources/protobuf/java/com/test/protocols/data/ContentProtos.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/target/generated-sources/avro/com/test/protocols/avro/Person.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/com/test/protocols/server/model/JsonPerson.java
+/Users/user/Desktop/projects/formation/protocols/protocols-server/src/main/java/com/test/protocols/server/service/ObjectBuilder.java

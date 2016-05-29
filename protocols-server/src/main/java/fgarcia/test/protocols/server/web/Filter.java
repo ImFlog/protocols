@@ -1,4 +1,4 @@
-package com.test.protocols.server.web;
+package fgarcia.test.protocols.server.web;
 
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

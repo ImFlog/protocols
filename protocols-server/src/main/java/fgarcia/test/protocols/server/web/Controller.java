@@ -1,7 +1,8 @@
-package com.test.protocols.server.web;
+package fgarcia.test.protocols.server.web;
 
-import com.test.protocols.server.model.JsonPerson;
-import com.test.protocols.server.service.ObjectBuilder;
+import fgarcia.test.protocols.protobuf.ContentProtos;
+import fgarcia.test.protocols.server.model.JsonPerson;
+import fgarcia.test.protocols.server.service.ObjectBuilder;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,5 +20,10 @@ public class Controller {
     @RequestMapping(value = "/json", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, JsonPerson> getJsonPeople() {
         return objectBuilder.jsonBuilder();
+    }
+
+    @RequestMapping(value = "/protobuf", method = RequestMethod.GET)
+    public ContentProtos.PeopleList getProtoPeople() {
+        return objectBuilder.protoBuilder();
     }
 }

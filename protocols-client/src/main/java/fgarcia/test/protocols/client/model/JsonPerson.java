@@ -1,4 +1,4 @@
-package com.test.protocols.server.model;
+package fgarcia.test.protocols.client.model;
 
 import java.util.List;
 import java.util.stream.Collectors;

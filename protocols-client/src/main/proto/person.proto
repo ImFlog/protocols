@@ -1,4 +1,4 @@
-option java_package = "com.test.protocols.proto";
+option java_package = "fgarcia.test.protocols.protobuf";
 option java_outer_classname = "ContentProtos";
 
 message Person {
@@ -10,7 +10,7 @@ message Person {
 }
 
 message MapEntry {
-    required int32 key = 1;
+    required string key = 1;
     required Person value = 2;
 }
 

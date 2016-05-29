@@ -1,4 +1,4 @@
-{"namespace": "com.test.protocols.avro",
+{"namespace": "fgarcia.test.protocols.avro",
  "type": "record",
  "name": "Person",
  "fields": [

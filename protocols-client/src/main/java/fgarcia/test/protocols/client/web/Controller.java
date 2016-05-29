@@ -1,8 +1,8 @@
 package fgarcia.test.protocols.client.web;
 
-import com.test.protocols.data.ContentProtos;
-import fgarcia.test.protocols.client.model.Person;
+import fgarcia.test.protocols.client.model.JsonPerson;
 import fgarcia.test.protocols.client.services.PerformanceService;
+import fgarcia.test.protocols.protobuf.ContentProtos;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +28,11 @@ public class Controller {
     public void startJsonTest() throws IOException {
         for (int i = 0; i < HUNDRED; i++) {
             perfService.startCounter(i);
-            ParameterizedTypeReference<Map<Integer, Person>> typeRef = new ParameterizedTypeReference<Map<Integer, Person>>() {
+            ParameterizedTypeReference<Map<Integer, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<Integer, JsonPerson>>() {
             };
-            ResponseEntity<Map<Integer, Person>> peopleList = restTemplate.exchange(
+            ResponseEntity<Map<Integer, JsonPerson>> peopleList = restTemplate.exchange(
                     "http://localhost:8080/json", HttpMethod.GET, null, typeRef);
-            for (Map.Entry<Integer, Person> entry : peopleList.getBody().entrySet()) {
+            for (Map.Entry<Integer, JsonPerson> entry : peopleList.getBody().entrySet()) {
                 System.out.println("Got result : " + entry.toString());
             }
             perfService.setSize(i, peopleList.getHeaders().getContentLength());

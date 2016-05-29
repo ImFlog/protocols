@@ -1,4 +1,4 @@
-package fgarcia.test.protocols.client.model;
+package fgarcia.test.protocols.server.model;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 /**
  * Created by Flo on 14/04/2016.
  */
-public class Person {
+public class JsonPerson {
 
     String firstName;
     String lastName;
