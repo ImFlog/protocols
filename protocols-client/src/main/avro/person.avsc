@@ -1,0 +1,16 @@
+{"namespace": "fgarcia.test.protocols.avro",
+ "type": "record",
+ "name": "Person",
+ "fields": [
+     {"name": "firstName", "type": "string"},
+     {"name": "lastName",  "type": "int"},
+     {"name": "address", "type": "string"},
+     {"name": "age", "type": "int"},
+     {"name": "moreInfo", "type": "array", "items": "string"}
+ ]
+}
+{"namespace": "fgarcia.test.protocols.avro",,
+ "type": "map",
+ "name": "PeopleList",
+ "values": "Person"
+}

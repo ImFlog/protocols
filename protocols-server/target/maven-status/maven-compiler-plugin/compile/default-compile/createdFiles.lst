@@ -1,0 +1,17 @@
+com/test/protocols/data/ContentProtos$1.class
+com/test/protocols/avro/Person.class
+com/test/protocols/data/ContentProtos$MapEntry$1.class
+com/test/protocols/data/ContentProtos$PeopleList$1.class
+com/test/protocols/avro/Person$1.class
+com/test/protocols/data/ContentProtos$PeopleList.class
+com/test/protocols/data/ContentProtos$Person$1.class
+com/test/protocols/data/ContentProtos$MapEntry.class
+com/test/protocols/data/ContentProtos$PeopleListOrBuilder.class
+com/test/protocols/data/ContentProtos$MapEntryOrBuilder.class
+com/test/protocols/data/ContentProtos$MapEntry$Builder.class
+com/test/protocols/data/ContentProtos$PeopleList$Builder.class
+com/test/protocols/data/ContentProtos$Person.class
+com/test/protocols/data/ContentProtos$Person$Builder.class
+com/test/protocols/data/ContentProtos$PersonOrBuilder.class
+com/test/protocols/avro/Person$Builder.class
+com/test/protocols/data/ContentProtos.class
