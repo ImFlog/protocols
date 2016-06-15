@@ -1,16 +1,21 @@
-{"namespace": "fgarcia.test.protocols.avro",
+[{
+ "namespace": "fgarcia.test.protocols.avro",
  "type": "record",
  "name": "Person",
  "fields": [
      {"name": "firstName", "type": "string"},
-     {"name": "lastName",  "type": "int"},
+     {"name": "lastName",  "type": "string"},
      {"name": "address", "type": "string"},
      {"name": "age", "type": "int"},
      {"name": "moreInfo", "type": {"type": "array", "items": "string"}}
  ]
-}
-{"namespace": "com.test.protocols.avro",
- "type": "map",
+},
+{
+ "namespace": "fgarcia.test.protocols.avro",
+ "type": "record",
  "name": "PeopleList",
- "values": "Person"
-}
+ "fields": [
+    {"name": "items", "type": {
+        "type": "map", "values": "fgarcia.test.protocols.avro.Person"}
+    }]
+}]

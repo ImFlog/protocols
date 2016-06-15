@@ -20,3 +20,6 @@ hs_err_pid*
 
 # No csv files
 *.csv
+
+# No target file
+*/target/*

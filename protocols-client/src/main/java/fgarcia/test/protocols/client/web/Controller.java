@@ -1,5 +1,7 @@
 package fgarcia.test.protocols.client.web;
 
+import fgarcia.test.protocols.avro.PeopleList;
+import fgarcia.test.protocols.avro.Person;
 import fgarcia.test.protocols.client.model.JsonPerson;
 import fgarcia.test.protocols.client.services.PerformanceService;
 import fgarcia.test.protocols.protobuf.ContentProtos;
@@ -54,5 +56,20 @@ public class Controller {
             perfService.endCounter(i);
         }
         perfService.exportResults("protoStats");
+    }
+
+    @RequestMapping(value = "/avroTest")
+    public void startAvroTest() throws IOException {
+        for (int i = 0; i < HUNDRED; i++) {
+            perfService.startCounter(i);
+            ResponseEntity<PeopleList> peopleList = restTemplate.exchange(
+                    "http://localhost:8080/avro", HttpMethod.GET, null, PeopleList.class);
+            for (Map.Entry<CharSequence, Person> entry : peopleList.getBody().getItems().entrySet()) {
+                System.out.println("Got result : " + entry.getValue().toString());
+            }
+            perfService.setSize(i, peopleList.getHeaders().getContentLength());
+            perfService.endCounter(i);
+        }
+        perfService.exportResults("avroStats");
     }
 }

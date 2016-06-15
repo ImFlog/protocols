@@ -1,5 +1,7 @@
 package fgarcia.test.protocols.server.service;
 
+import fgarcia.test.protocols.avro.PeopleList;
+import fgarcia.test.protocols.avro.Person;
 import fgarcia.test.protocols.protobuf.ContentProtos;
 import fgarcia.test.protocols.server.model.JsonPerson;
 import org.springframework.stereotype.Service;
@@ -33,7 +35,7 @@ public class ObjectBuilder {
 
     public ContentProtos.PeopleList protoBuilder() {
         ContentProtos.PeopleList.Builder peopleList = ContentProtos.PeopleList.newBuilder();
-        for (int i=0; i<AMOUNT; i++) {
+        for (int i = 0; i < AMOUNT; i++) {
             peopleList.addEntry(ContentProtos.MapEntry.newBuilder()
                     .setKey(String.valueOf(i))
                     .setValue(createProtoPerson(i)));
@@ -48,6 +50,27 @@ public class ObjectBuilder {
                 .setAge(i)
                 .setAddress(i + " bar street Paris")
                 .addAllMoreInfo(Arrays.asList("foo", "bar", "babar", "foofoo"))
+                .build();
+    }
+
+    public PeopleList avroBuilder() {
+        PeopleList peopleList = new PeopleList();
+        peopleList.setItems(new HashMap<>());
+        for (int i = 0; i < AMOUNT; i++) {
+            peopleList.getItems().put(
+                    String.valueOf(i),
+                    createAvroPerson(i));
+        }
+        return peopleList;
+    }
+
+    private Person createAvroPerson(int i) {
+        return Person.newBuilder()
+                .setFirstName("Foo " + i)
+                .setLastName("Bar " + i)
+                .setAge(i)
+                .setAddress(i + " bar street Paris")
+                .setMoreInfo(Arrays.asList("foo", "bar", "babar", "foofoo"))
                 .build();
     }
 }
