@@ -5,12 +5,15 @@ import com.fasterxml.jackson.dataformat.avro.AvroSchema;
 import com.google.protobuf.ExtensionRegistry;
 import fgarcia.test.protocols.avro.PeopleList;
 import org.apache.avro.Schema;
+import org.apache.avro.io.BinaryDecoder;
+import org.apache.avro.io.DatumReader;
+import org.apache.avro.io.DecoderFactory;
 import org.apache.avro.specific.SpecificData;
+import org.apache.avro.specific.SpecificDatumReader;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.http.converter.protobuf.ExtensionRegistryInitializer;
 import org.springframework.util.Assert;
@@ -36,9 +39,7 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
     protected boolean supports(Class<?> clazz) {
         Assert.notNull(clazz, "the class must not be null");
         try {
-            SpecificData specificData = SpecificData.get();
-            Schema result = specificData.getSchema(clazz);
-            if (null != result) {
+            if (null != SpecificData.get().getSchema(clazz)) {
                 return true;
             }
         } catch (Throwable th) {
@@ -48,11 +49,12 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
     }
 
     @Override
-    protected PeopleList readInternal(Class<? extends PeopleList> clazz, HttpInputMessage inputMessage) throws IOException, HttpMessageNotReadableException {
+    protected PeopleList readInternal(Class<? extends PeopleList> clazz, HttpInputMessage inputMessage) {
         try {
-            SpecificData specificData = SpecificData.get();
-            AvroSchema schema = new AvroSchema(specificData.getSchema(clazz));
-            return mapper.reader(schema).readValue(inputMessage.getBody());
+            Schema schema = SpecificData.get().getSchema(clazz);
+            DatumReader<PeopleList> reader = new SpecificDatumReader<>(schema);
+            BinaryDecoder decoder = DecoderFactory.get().binaryDecoder(inputMessage.getBody(), null);
+            return reader.read(null, decoder);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -60,9 +62,14 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
 
     @Override
     protected void writeInternal(PeopleList message, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        /*Schema schema = SpecificData.get().getSchema(PeopleList.class);
+        DatumWriter<PeopleList> writer = new SpecificDatumWriter<>(schema);
+        BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(outputMessage.getBody(), null);
+        writer.write(message, encoder);*/
         SpecificData specificData = SpecificData.get();
         Schema schema = specificData.getSchema(PeopleList.class);
         outputMessage.getBody().write(
                 mapper.writer(new AvroSchema(schema)).writeValueAsBytes(message));
     }
 }
+

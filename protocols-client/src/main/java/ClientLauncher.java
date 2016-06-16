@@ -24,13 +24,6 @@ public class ClientLauncher {
         return restTemplate;
     }
 
-    /*@Bean
-    RestTemplate AvroRestTemplate(AvroHttpMessageConverter amc) {
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(amc);
-        return restTemplate;
-    }*/
-
     @Bean
     ProtobufHttpMessageConverter protobufHttpMessageConverter() {
         return new ProtobufHttpMessageConverter();
