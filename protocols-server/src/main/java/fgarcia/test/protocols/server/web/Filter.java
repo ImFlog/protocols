@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.ShallowEtagHeaderFilter;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class Filter {
@@ -14,7 +14,7 @@ public class Filter {
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterBean = new FilterRegistrationBean();
         filterBean.setFilter(new ShallowEtagHeaderFilter());
-        filterBean.setUrlPatterns(Arrays.asList("*"));
+        filterBean.setUrlPatterns(Collections.singletonList("*"));
         return filterBean;
     }
 }

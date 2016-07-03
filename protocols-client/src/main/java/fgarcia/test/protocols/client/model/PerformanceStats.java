@@ -2,25 +2,11 @@ package fgarcia.test.protocols.client.model;
 
 public class PerformanceStats {
     private int id;
-    private long start;
-    private long end;
+    private long startServer;
+    private long endServer;
+    private long startClient;
+    private long endClient;
     private long size;
-
-    public long getStart() {
-        return start;
-    }
-
-    public void setStart(long start) {
-        this.start = start;
-    }
-
-    public long getEnd() {
-        return end;
-    }
-
-    public void setEnd(long duration) {
-        this.end = duration;
-    }
 
     public int getId() {
         return id;
@@ -28,6 +14,38 @@ public class PerformanceStats {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public long getStartServer() {
+        return startServer;
+    }
+
+    public void setStartServer(long startServer) {
+        this.startServer = startServer;
+    }
+
+    public long getEndServer() {
+        return endServer;
+    }
+
+    public void setEndServer(long endServer) {
+        this.endServer = endServer;
+    }
+
+    public long getStartClient() {
+        return startClient;
+    }
+
+    public void setStartClient(long startClient) {
+        this.startClient = startClient;
+    }
+
+    public long getEndClient() {
+        return endClient;
+    }
+
+    public void setEndClient(long endClient) {
+        this.endClient = endClient;
     }
 
     public long getSize() {
@@ -38,7 +56,11 @@ public class PerformanceStats {
         this.size = size;
     }
 
-    public long getDuration() {
-        return end - start;
+    public long getServerDuration() {
+        return endServer - startServer;
+    }
+
+    public long getClientDuration() {
+        return endClient - startClient;
     }
 }

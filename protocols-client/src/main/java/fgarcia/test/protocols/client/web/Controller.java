@@ -29,16 +29,18 @@ public class Controller {
     @RequestMapping(value = "/jsonTest")
     public void startJsonTest() throws IOException {
         for (int i = 0; i < HUNDRED; i++) {
-            perfService.startCounter(i);
-            ParameterizedTypeReference<Map<Integer, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<Integer, JsonPerson>>() {
+            perfService.startServerCounter(i);
+            ParameterizedTypeReference<Map<String, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<String, JsonPerson>>() {
             };
-            ResponseEntity<Map<Integer, JsonPerson>> peopleList = restTemplate.exchange(
+            perfService.endServerCounter(i);
+            perfService.startClientCounter(i);
+            ResponseEntity<Map<String, JsonPerson>> peopleList = restTemplate.exchange(
                     "http://localhost:8080/json", HttpMethod.GET, null, typeRef);
-            for (Map.Entry<Integer, JsonPerson> entry : peopleList.getBody().entrySet()) {
+            for (Map.Entry<String, JsonPerson> entry : peopleList.getBody().entrySet()) {
                 System.out.println("Got result : " + entry.toString());
             }
+            perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
-            perfService.endCounter(i);
         }
         perfService.exportResults("jsonStats");
     }
@@ -46,14 +48,16 @@ public class Controller {
     @RequestMapping(value = "/protobufTest")
     public void startProtoTest() throws IOException {
         for (int i = 0; i < HUNDRED; i++) {
-            perfService.startCounter(i);
+            perfService.startServerCounter(i);
             ResponseEntity<ContentProtos.PeopleList> peopleList = restTemplate.exchange(
                     "http://localhost:8080/protobuf", HttpMethod.GET, null, ContentProtos.PeopleList.class);
+            perfService.endServerCounter(i);
+            perfService.startClientCounter(i);
             for (ContentProtos.MapEntry entry : peopleList.getBody().getEntryList()) {
                 System.out.println("Got result : " + entry.toString());
             }
+            perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
-            perfService.endCounter(i);
         }
         perfService.exportResults("protoStats");
     }
@@ -61,14 +65,16 @@ public class Controller {
     @RequestMapping(value = "/avroTest")
     public void startAvroTest() throws IOException {
         for (int i = 0; i < HUNDRED; i++) {
-            perfService.startCounter(i);
+            perfService.startServerCounter(i);
             ResponseEntity<PeopleList> peopleList = restTemplate.exchange(
                     "http://localhost:8080/avro", HttpMethod.GET, null, PeopleList.class);
+            perfService.endServerCounter(i);
+            perfService.startClientCounter(i);
             for (Map.Entry<CharSequence, Person> entry : peopleList.getBody().getItems().entrySet()) {
                 System.out.println("Got result : " + entry.getValue().toString());
             }
+            perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
-            perfService.endCounter(i);
         }
         perfService.exportResults("avroStats");
     }

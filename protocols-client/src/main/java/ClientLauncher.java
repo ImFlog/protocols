@@ -6,8 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-
 @ComponentScan("fgarcia.test.protocols.client")
 @SpringBootApplication
 public class ClientLauncher {
@@ -19,8 +17,8 @@ public class ClientLauncher {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setMessageConverters(
-                Arrays.asList(protobufHttpMessageConverter(), avroHttpMessageConverter()));
+        restTemplate.getMessageConverters().add(protobufHttpMessageConverter());
+        restTemplate.getMessageConverters().add(avroHttpMessageConverter());
         return restTemplate;
     }
 

@@ -8,8 +8,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-
 @ComponentScan("fgarcia.test.protocols.server")
 @SpringBootApplication
 public class ServerLauncher {
@@ -20,8 +18,8 @@ public class ServerLauncher {
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setMessageConverters(
-                Arrays.asList(protobufHttpMessageConverter(), avroHttpMessageConverter()));
+        restTemplate.getMessageConverters().add(protobufHttpMessageConverter());
+        restTemplate.getMessageConverters().add(avroHttpMessageConverter());
         return restTemplate;
     }
 
