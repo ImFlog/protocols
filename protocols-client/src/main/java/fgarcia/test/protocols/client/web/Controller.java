@@ -32,10 +32,10 @@ public class Controller {
             perfService.startServerCounter(i);
             ParameterizedTypeReference<Map<String, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<String, JsonPerson>>() {
             };
-            perfService.endServerCounter(i);
-            perfService.startClientCounter(i);
             ResponseEntity<Map<String, JsonPerson>> peopleList = restTemplate.exchange(
                     "http://localhost:8080/json", HttpMethod.GET, null, typeRef);
+            perfService.endServerCounter(i);
+            perfService.startClientCounter(i);
             for (Map.Entry<String, JsonPerson> entry : peopleList.getBody().entrySet()) {
                 System.out.println("Got result : " + entry.toString());
             }

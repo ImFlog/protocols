@@ -52,25 +52,24 @@ public class PerformanceService {
         FileWriter writer;
         File file = new File(filename + ".csv");
         // creates the file
-        if (file.createNewFile()) {
-            writer = new FileWriter(file);
-            writer.write("N°,Server duration,Client duration,Size\r\n");
+        file.createNewFile();
+        writer = new FileWriter(file);
+        writer.write("N°,Server duration,Client duration,Size\r\n");
 
-            // Write CSV
-            for (Map.Entry<Integer, PerformanceStats> entry : counterList.entrySet()) {
-                writer.write(String.valueOf(entry.getKey()));
-                writer.write(",");
-                writer.write(String.valueOf(entry.getValue().getServerDuration()));
-                writer.write(",");
-                writer.write(String.valueOf(entry.getValue().getClientDuration()));
-                writer.write(",");
-                writer.write(String.valueOf(entry.getValue().getSize()));
-                writer.write("\r\n");
-            }
-
-            writer.flush();
-            writer.close();
+        // Write CSV
+        for (Map.Entry<Integer, PerformanceStats> entry : counterList.entrySet()) {
+            writer.write(String.valueOf(entry.getKey()));
+            writer.write(",");
+            writer.write(String.valueOf(entry.getValue().getServerDuration()));
+            writer.write(",");
+            writer.write(String.valueOf(entry.getValue().getClientDuration()));
+            writer.write(",");
+            writer.write(String.valueOf(entry.getValue().getSize()));
+            writer.write("\r\n");
         }
+
+        writer.flush();
+        writer.close();
         cleanCounter();
     }
 }
