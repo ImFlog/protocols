@@ -14,6 +14,9 @@ public class ClientLauncher {
         SpringApplication.run(ClientLauncher.class, args);
     }
 
+    /**
+     * Inject messageConverters to RestTemplate.
+     */
     @Bean
     public RestTemplate restTemplate() {
         RestTemplate restTemplate = new RestTemplate();

@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Simple performance gathering service.
+ */
 @Service
 public class PerformanceService {
 

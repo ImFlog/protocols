@@ -1,5 +1,8 @@
 package fgarcia.test.protocols.client.model;
 
+/**
+ * Performance statistic container.
+ */
 public class PerformanceStats {
     private int id;
     private long startServer;

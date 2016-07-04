@@ -10,6 +10,10 @@ import java.util.Collections;
 @Configuration
 public class Filter {
 
+    /**
+     * Filter used to add various header to http responses.
+     * We are particularly interested by the content-length.
+     */
     @Bean
     public FilterRegistrationBean filterRegistrationBean() {
         FilterRegistrationBean filterBean = new FilterRegistrationBean();

@@ -20,10 +20,14 @@ import org.springframework.util.Assert;
 
 import java.io.IOException;
 
+/**
+ * Class used to convert avro messages (avro/binary http Content-Type)
+ */
 public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<PeopleList> {
 
     public static final MediaType AVRO = new MediaType("avro", "binary");
     private final ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
+    // This mapper is buggy for reading
     private final AvroMapper mapper = new AvroMapper();
 
     public AvroHttpMessageConverter() {this(null);}
@@ -35,6 +39,9 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
         }
     }
 
+    /**
+     * Define supported types
+     */
     @Override
     protected boolean supports(Class<?> clazz) {
         Assert.notNull(clazz, "the class must not be null");
@@ -48,6 +55,10 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
         return false;
     }
 
+    /**
+     * Read an http content and convert it to an avro java object.
+     * @return a PeopleList.
+     */
     @Override
     protected PeopleList readInternal(Class<? extends PeopleList> clazz, HttpInputMessage inputMessage) {
         try {
@@ -60,12 +71,11 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
         }
     }
 
+    /**
+     * Write avro object in an http message.
+     */
     @Override
     protected void writeInternal(PeopleList message, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        /*Schema schema = SpecificData.get().getSchema(PeopleList.class);
-        DatumWriter<PeopleList> writer = new SpecificDatumWriter<>(schema);
-        BinaryEncoder encoder = EncoderFactory.get().binaryEncoder(outputMessage.getBody(), null);
-        writer.write(message, encoder);*/
         SpecificData specificData = SpecificData.get();
         Schema schema = specificData.getSchema(PeopleList.class);
         outputMessage.getBody().write(

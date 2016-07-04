@@ -11,10 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+/**
+ * Service responsible for object creation.
+ * Handle Json, Protobuf and Avro creation.
+ */
 public class ObjectBuilder {
 
+    // Amount of created objects
     public static int AMOUNT = 1000;
 
+    /**
+     * Build json people list.
+     */
     public Map<String, JsonPerson> jsonBuilder() {
         Map<String, JsonPerson> peopleList = new HashMap<>();
         for (int i = 0; i < AMOUNT; i++) {
@@ -23,6 +31,9 @@ public class ObjectBuilder {
         return peopleList;
     }
 
+    /**
+     * Create a single Json Person.
+     */
     private JsonPerson createJsonPerson(int i) {
         JsonPerson p = new JsonPerson();
         p.setFirstName("Foo " + i);
@@ -33,6 +44,9 @@ public class ObjectBuilder {
         return p;
     }
 
+    /**
+     * Build protobuf people list.
+     */
     public ContentProtos.PeopleList protoBuilder() {
         ContentProtos.PeopleList.Builder peopleList = ContentProtos.PeopleList.newBuilder();
         for (int i = 0; i < AMOUNT; i++) {
@@ -43,6 +57,9 @@ public class ObjectBuilder {
         return peopleList.build();
     }
 
+    /**
+     * Create a single protobuf Person.
+     */
     private ContentProtos.Person createProtoPerson(int i) {
         return ContentProtos.Person.newBuilder()
                 .setFirstName("Foo " + i)
@@ -53,6 +70,9 @@ public class ObjectBuilder {
                 .build();
     }
 
+    /**
+     * Build avro people list.
+     */
     public PeopleList avroBuilder() {
         PeopleList peopleList = new PeopleList();
         peopleList.setItems(new HashMap<>());
@@ -64,6 +84,9 @@ public class ObjectBuilder {
         return peopleList;
     }
 
+    /**
+     * Create a single avro Person.
+     */
     private Person createAvroPerson(int i) {
         return Person.newBuilder()
                 .setFirstName("Foo " + i)

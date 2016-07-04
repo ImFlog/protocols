@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Created by Flo on 14/04/2016.
+ * Basic java object for Json serialization.
  */
 public class JsonPerson {
 
