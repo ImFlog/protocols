@@ -31,6 +31,10 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
             <!-- Protobuf plugin for code generation -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
@@ -44,7 +48,8 @@
                             <goal>test-compile</goal>
                         </goals>
                         <configuration>
-                            <protocArtifact>com.google.protobuf:protoc:2.6.1:exe:${os.detected.classifier}</protocArtifact>
+                            <protocArtifact>com.google.protobuf:protoc:2.6.1:exe:${os.detected.classifier}
+                            </protocArtifact>
                         </configuration>
                     </execution>
                 </executions>
@@ -85,7 +90,6 @@
             <artifactId>avro</artifactId>
             <version>1.8.1</version>
         </dependency>
-        <!-- http://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-avro -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-avro</artifactId>

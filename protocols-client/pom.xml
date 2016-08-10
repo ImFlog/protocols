@@ -14,10 +14,6 @@
         <version>1.3.4.RELEASE</version>
     </parent>
 
-    <properties>
-        <feign.version>8.16.0</feign.version>
-    </properties>
-
     <build>
         <extensions>
             <extension>
@@ -77,17 +73,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.netflix.feign</groupId>
-            <artifactId>feign-core</artifactId>
-            <version>${feign.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.netflix.feign</groupId>
-            <artifactId>feign-gson</artifactId>
-            <version>${feign.version}</version>
-        </dependency>
+        </dependency>>
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
