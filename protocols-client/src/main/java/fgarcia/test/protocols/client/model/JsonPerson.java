@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
  */
 public class JsonPerson {
 
-    String firstName;
-    String lastName;
-    String address;
-    int age;
-    List<String> moreInfo;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private int age;
+    private List<String> moreInfo;
 
     public String getFirstName() {
         return firstName;

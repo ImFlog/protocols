@@ -26,12 +26,12 @@ public class ClientLauncher {
     }
 
     @Bean
-    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
+    public ProtobufHttpMessageConverter protobufHttpMessageConverter() {
         return new ProtobufHttpMessageConverter();
     }
 
     @Bean
-    AvroHttpMessageConverter avroHttpMessageConverter() {
+    public AvroHttpMessageConverter avroHttpMessageConverter() {
         return new AvroHttpMessageConverter();
     }
 }

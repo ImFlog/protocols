@@ -5,6 +5,7 @@ import fgarcia.test.protocols.avro.Person;
 import fgarcia.test.protocols.client.model.JsonPerson;
 import fgarcia.test.protocols.client.services.PerformanceService;
 import fgarcia.test.protocols.protobuf.ContentProtos;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-import javax.inject.Inject;
 import java.io.IOException;
 import java.util.Map;
 
@@ -22,11 +22,14 @@ public class Controller {
     private static final int HUNDRED = 100;
     private static final String serviceUrl = "http://localhost:8080/";
 
-    @Inject
-    PerformanceService perfService;
+    private PerformanceService perfService;
+    private RestTemplate restTemplate;
 
-    @Inject
-    RestTemplate restTemplate;
+    @Autowired
+    public Controller(PerformanceService perfService, RestTemplate restTemplate) {
+        this.perfService = perfService;
+        this.restTemplate = restTemplate;
+    }
 
     @RequestMapping(value = "/jsonTest")
     public void startJsonTest(@RequestParam(required = false) boolean small) throws IOException {

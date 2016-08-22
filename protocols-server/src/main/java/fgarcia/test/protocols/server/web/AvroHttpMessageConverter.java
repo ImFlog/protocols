@@ -25,8 +25,7 @@ import java.io.IOException;
  */
 public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<PeopleList> {
 
-    public static final MediaType AVRO = new MediaType("avro", "binary");
-    private final ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
+    private static final MediaType AVRO = new MediaType("avro", "binary");
     // This mapper is buggy for reading
     private final AvroMapper mapper = new AvroMapper();
 
@@ -35,7 +34,8 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
     public AvroHttpMessageConverter(ExtensionRegistryInitializer registryInitializer) {
         super(AVRO, MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON);
         if (registryInitializer != null) {
-            registryInitializer.initializeExtensionRegistry(this.extensionRegistry);
+            ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
+            registryInitializer.initializeExtensionRegistry(extensionRegistry);
         }
     }
 
