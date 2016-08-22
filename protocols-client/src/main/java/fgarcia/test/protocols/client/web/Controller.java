@@ -9,6 +9,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,7 +19,8 @@ import java.util.Map;
 
 @RestController
 public class Controller {
-    private final static int HUNDRED = 100;
+    private static final int HUNDRED = 100;
+    private static final String serviceUrl = "http://localhost:8080/";
 
     @Inject
     PerformanceService perfService;
@@ -27,13 +29,17 @@ public class Controller {
     RestTemplate restTemplate;
 
     @RequestMapping(value = "/jsonTest")
-    public void startJsonTest() throws IOException {
+    public void startJsonTest(@RequestParam(required = false) boolean small) throws IOException {
+        String url = serviceUrl + "json";
+        if (small) {
+            url += "?size=10";
+        }
         for (int i = 0; i < HUNDRED; i++) {
             perfService.startServerCounter(i);
             ParameterizedTypeReference<Map<String, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<String, JsonPerson>>() {
             };
             ResponseEntity<Map<String, JsonPerson>> peopleList = restTemplate.exchange(
-                    "http://localhost:8080/json", HttpMethod.GET, null, typeRef);
+                    url, HttpMethod.GET, null, typeRef);
             perfService.endServerCounter(i);
             perfService.startClientCounter(i);
             for (Map.Entry<String, JsonPerson> entry : peopleList.getBody().entrySet()) {
@@ -46,11 +52,15 @@ public class Controller {
     }
 
     @RequestMapping(value = "/protobufTest")
-    public void startProtoTest() throws IOException {
+    public void startProtoTest(@RequestParam(required = false) boolean small) throws IOException {
+        String url = serviceUrl + "protobuf";
+        if (small) {
+            url += "?size=10";
+        }
         for (int i = 0; i < HUNDRED; i++) {
             perfService.startServerCounter(i);
             ResponseEntity<ContentProtos.PeopleList> peopleList = restTemplate.exchange(
-                    "http://localhost:8080/protobuf", HttpMethod.GET, null, ContentProtos.PeopleList.class);
+                    url, HttpMethod.GET, null, ContentProtos.PeopleList.class);
             perfService.endServerCounter(i);
             perfService.startClientCounter(i);
             for (ContentProtos.MapEntry entry : peopleList.getBody().getEntryList()) {
@@ -63,11 +73,15 @@ public class Controller {
     }
 
     @RequestMapping(value = "/avroTest")
-    public void startAvroTest() throws IOException {
+    public void startAvroTest(@RequestParam(required = false) boolean small) throws IOException {
+        String url = serviceUrl + "avro";
+        if (small) {
+            url += "?size=10";
+        }
         for (int i = 0; i < HUNDRED; i++) {
             perfService.startServerCounter(i);
             ResponseEntity<PeopleList> peopleList = restTemplate.exchange(
-                    "http://localhost:8080/avro", HttpMethod.GET, null, PeopleList.class);
+                    url, HttpMethod.GET, null, PeopleList.class);
             perfService.endServerCounter(i);
             perfService.startClientCounter(i);
             for (Map.Entry<CharSequence, Person> entry : peopleList.getBody().getItems().entrySet()) {

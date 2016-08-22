@@ -18,14 +18,14 @@ import java.util.Map;
 public class ObjectBuilder {
 
     // Amount of created objects
-    public static int AMOUNT = 1000;
+    private static final int AMOUNT = 1000;
 
     /**
      * Build json people list.
      */
-    public Map<String, JsonPerson> jsonBuilder() {
+    public Map<String, JsonPerson> jsonBuilder(Integer size) {
         Map<String, JsonPerson> peopleList = new HashMap<>();
-        for (int i = 0; i < AMOUNT; i++) {
+        for (int i = 0; i < (size != null? size: AMOUNT); i++) {
             peopleList.put(String.valueOf(i), createJsonPerson(i));
         }
         return peopleList;
@@ -47,9 +47,9 @@ public class ObjectBuilder {
     /**
      * Build protobuf people list.
      */
-    public ContentProtos.PeopleList protoBuilder() {
+    public ContentProtos.PeopleList protoBuilder(Integer size) {
         ContentProtos.PeopleList.Builder peopleList = ContentProtos.PeopleList.newBuilder();
-        for (int i = 0; i < AMOUNT; i++) {
+        for (int i = 0; i < (size != null? size: AMOUNT); i++) {
             peopleList.addEntry(ContentProtos.MapEntry.newBuilder()
                     .setKey(String.valueOf(i))
                     .setValue(createProtoPerson(i)));
@@ -73,10 +73,10 @@ public class ObjectBuilder {
     /**
      * Build avro people list.
      */
-    public PeopleList avroBuilder() {
+    public PeopleList avroBuilder(Integer size) {
         PeopleList peopleList = new PeopleList();
         peopleList.setItems(new HashMap<>());
-        for (int i = 0; i < AMOUNT; i++) {
+        for (int i = 0; i < (size != null? size: AMOUNT); i++) {
             peopleList.getItems().put(
                     String.valueOf(i),
                     createAvroPerson(i));
