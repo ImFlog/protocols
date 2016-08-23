@@ -1,13 +1,10 @@
 package fgarcia.test.protocols.client.web;
 
-import com.fasterxml.jackson.dataformat.avro.AvroMapper;
-import com.fasterxml.jackson.dataformat.avro.AvroSchema;
 import com.google.protobuf.ExtensionRegistry;
 import fgarcia.test.protocols.avro.PeopleList;
 import org.apache.avro.Schema;
-import org.apache.avro.io.BinaryDecoder;
-import org.apache.avro.io.DatumReader;
-import org.apache.avro.io.DecoderFactory;
+import org.apache.avro.generic.GenericDatumWriter;
+import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificData;
 import org.apache.avro.specific.SpecificDatumReader;
 import org.springframework.http.HttpInputMessage;
@@ -26,16 +23,15 @@ import java.io.IOException;
 public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<PeopleList> {
 
     public static final MediaType AVRO = new MediaType("avro", "binary");
-    private final ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
-    // This mapper is buggy for reading
-    private final AvroMapper mapper = new AvroMapper();
+    private final static ThreadLocal<Encoder> encoderThreadLocal = new ThreadLocal<>();
 
     public AvroHttpMessageConverter() {this(null);}
 
     public AvroHttpMessageConverter(ExtensionRegistryInitializer registryInitializer) {
         super(AVRO, MediaType.TEXT_PLAIN, MediaType.APPLICATION_JSON);
         if (registryInitializer != null) {
-            registryInitializer.initializeExtensionRegistry(this.extensionRegistry);
+            ExtensionRegistry extensionRegistry = ExtensionRegistry.newInstance();
+            registryInitializer.initializeExtensionRegistry(extensionRegistry);
         }
     }
 
@@ -76,9 +72,18 @@ public class AvroHttpMessageConverter extends AbstractHttpMessageConverter<Peopl
      */
     @Override
     protected void writeInternal(PeopleList message, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
+        Assert.notNull(message, "the object to encode must not be null");
         SpecificData specificData = SpecificData.get();
         Schema schema = specificData.getSchema(PeopleList.class);
-        outputMessage.getBody().write(
-                mapper.writer(new AvroSchema(schema)).writeValueAsBytes(message));
+        Assert.notNull(schema, "the schema must not be null");
+        GenericDatumWriter<PeopleList> writer = new GenericDatumWriter<>(schema);
+        EncoderFactory encoderFactory = new EncoderFactory();
+        Encoder encoder = encoderFactory
+                .validatingEncoder(
+                        schema,
+                        encoderFactory.binaryEncoder(
+                                outputMessage.getBody(), (BinaryEncoder) encoderThreadLocal.get()));
+        writer.write(message, encoder);
+        encoder.flush();
     }
 }
