@@ -6,6 +6,7 @@ import fgarcia.test.protocols.client.model.JsonPerson;
 import fgarcia.test.protocols.client.services.PerformanceService;
 import fgarcia.test.protocols.protobuf.ContentProtos;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,12 @@ public class Controller {
     private PerformanceService perfService;
     private RestTemplate restTemplate;
 
+    /**
+     * Hack to change the filename if compressed with GZIP.
+     */
+    @Value("${gzip.enabled}")
+    private boolean isGzip = false;
+
     @Autowired
     public Controller(PerformanceService perfService, RestTemplate restTemplate) {
         this.perfService = perfService;
@@ -39,8 +46,9 @@ public class Controller {
         }
         for (int i = 0; i < HUNDRED; i++) {
             perfService.startServerCounter(i);
-            ParameterizedTypeReference<Map<String, JsonPerson>> typeRef = new ParameterizedTypeReference<Map<String, JsonPerson>>() {
-            };
+            ParameterizedTypeReference<Map<String, JsonPerson>> typeRef =
+                    new ParameterizedTypeReference<Map<String, JsonPerson>>() {
+                    };
             ResponseEntity<Map<String, JsonPerson>> peopleList = restTemplate.exchange(
                     url, HttpMethod.GET, null, typeRef);
             perfService.endServerCounter(i);
@@ -51,7 +59,11 @@ public class Controller {
             perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
         }
-        perfService.exportResults("jsonStats");
+        String resultFileName = "jsonStats";
+        if (isGzip) {
+            resultFileName += "-Gzip";
+        }
+        perfService.exportResults(resultFileName);
     }
 
     @RequestMapping(value = "/protobufTest")
@@ -72,7 +84,11 @@ public class Controller {
             perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
         }
-        perfService.exportResults("protoStats");
+        String resultFileName = "protoStats";
+        if (isGzip) {
+            resultFileName += "-Gzip";
+        }
+        perfService.exportResults(resultFileName);
     }
 
     @RequestMapping(value = "/avroTest")
@@ -93,6 +109,10 @@ public class Controller {
             perfService.endClientCounter(i);
             perfService.setSize(i, peopleList.getHeaders().getContentLength());
         }
-        perfService.exportResults("avroStats");
+        String resultFileName = "avroStats";
+        if (isGzip) {
+            resultFileName += "-Gzip";
+        }
+        perfService.exportResults(resultFileName);
     }
 }
